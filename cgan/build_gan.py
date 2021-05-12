@@ -5,10 +5,9 @@ import torch
 import torchvision.utils as vutils
 from datetime import datetime
 
-from ..utils import *
-
-from .discriminator import Discriminator
-from .generator import Generator
+from discriminator import Discriminator
+from generator import Generator
+from utils import to_np
 
 
 class Model(object):
@@ -94,7 +93,7 @@ class Model(object):
             viz_tensor = torch.randn(batch_size, self.latent_dim, 1, 1, device=self.device)
             viz_sample = self.netG(viz_tensor, viz_labels)
 
-        viz_vector = utils.to_np(viz_tensor).reshape(batch_size, self.latent_dim)
+        viz_vector = to_np(viz_tensor).reshape(batch_size, self.latent_dim)
         cur_time = datetime.now().strftime("%Y%m%d-%H%M%S")
         np.savetxt('vec_{}.txt'.format(cur_time), viz_vector)
         vutils.save_image(viz_sample, 'img_{}.png'.format(cur_time), nrow=8, normalize=True)

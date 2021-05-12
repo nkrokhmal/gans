@@ -9,9 +9,8 @@ import torch.utils.data
 import torchvision.datasets as dset
 import torchvision.transforms as transforms
 
-from ..utils import *
-
 from build_gan import Model
+from utils import *
 
 FLAGS = None
 
@@ -71,11 +70,11 @@ if __name__ == '__main__':
     cudnn.benchmark = True
 
     if FLAGS.train:
-        utils.clear_folder(FLAGS.out_dir)
+        clear_folder(FLAGS.out_dir)
 
     log_file = os.path.join(FLAGS.out_dir, 'log.txt')
     print("Logging to {}\n".format(log_file))
-    sys.stdout = utils.StdOut(log_file)
+    sys.stdout = StdOut(log_file)
 
     print("PyTorch version: {}".format(torch.__version__))
     print("CUDA version: {}\n".format(torch.version.cuda))
