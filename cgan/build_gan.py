@@ -68,10 +68,10 @@ class Model(object):
                 self.optim_D.step()
 
                 if verbose and batch_idx % log_interval == 0 and batch_idx > 0:
-                    print('Epoch {} [{}/{}] loss_D: {:.4f} loss_G: {:.4f}').format(
+                    print('Epoch {} [{}/{}] loss_D: {:.4f} loss_G: {:.4f}'.format(
                         epoch, batch_idx, len(self.data_loader),
                         d_loss.mean().item(),
-                        g_loss.mean().item(),
+                        g_loss.mean().item(),)
                     )
                     vutils.save_image(data, os.path.join(out_dir, 'real_samples.png'), normalize=True)
                     with torch.no_grad():
