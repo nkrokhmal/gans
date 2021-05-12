@@ -6,7 +6,7 @@ import numpy as np
 
 class Generator(nn.Module):
     def __init__(self, classes, channels, img_size, latent_dim):
-        super(Generator. self).__init__()
+        super(Generator, self).__init__()
         self.classes = classes
         self.channels = channels
         self.img_size = img_size
