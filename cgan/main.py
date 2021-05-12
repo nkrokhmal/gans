@@ -24,7 +24,7 @@ def main():
                              transform=transforms.Compose([
                                  transforms.Resize(FLAGS.img_size),
                                  transforms.ToTensor(),
-                                 transforms.Normalize((0.5,), (0.5,),),
+                                 transforms.Normalize((0.5,), (0.5,))
                              ]))
         assert dataset
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=FLAGS.batch_size,
@@ -33,12 +33,14 @@ def main():
         model = Model(FLAGS.model, device, dataloader, FLAGS.classes, FLAGS.channels, FLAGS.img_size, FLAGS.latent_dim)
         model.create_optim(FLAGS.lr)
 
+        # Train
         model.train(FLAGS.epochs, FLAGS.log_interval, FLAGS.out_dir, True)
+
         model.save_to('')
     else:
         model = Model(FLAGS.model, device, None, FLAGS.classes, FLAGS.channels, FLAGS.img_size, FLAGS.latent_dim)
         model.load_from(FLAGS.out_dir)
-        model.eval(mode=0, batch_size=FLAGS.batch_size)
+        model.eval(mode=1, batch_size=FLAGS.batch_size)
 
 
 if __name__ == '__main__':
@@ -86,8 +88,8 @@ if __name__ == '__main__':
         arg_str = str(arg)
         var_str = str(getattr(FLAGS, arg))
         type_str = str(type(getattr(FLAGS, arg)).__name__)
-        print("  " + arg_str + " " * (20 - len(arg_str)) + "|" + \
-              "  " + type_str + " " * (10 - len(type_str)) + "|" + \
+        print("  " + arg_str + " " * (20-len(arg_str)) + "|" + \
+              "  " + type_str + " " * (10-len(type_str)) + "|" + \
               "  " + var_str)
 
     main()

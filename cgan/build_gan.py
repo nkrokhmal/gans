@@ -50,7 +50,7 @@ class Model(object):
 
                 self.netG.zero_grad()
                 z_noise = torch.randn(batch_size, self.latent_dim, device=self.device)
-                x_fake_labels = torch.randint(0, self.classes, (batch_size, ), device=self.device)
+                x_fake_labels = torch.randint(0, self.classes, (batch_size,), device=self.device)
                 x_fake = self.netG(z_noise, x_fake_labels)
                 y_fake_g = self.netD(x_fake, x_fake_labels)
                 g_loss = self.netD.loss(y_fake_g, real_label)
@@ -63,6 +63,7 @@ class Model(object):
 
                 y_fake_d = self.netD(x_fake.detach(), x_fake_labels)
                 d_fake_loss = self.netD.loss(y_fake_d, fake_label)
+
                 d_loss = (d_real_loss + d_fake_loss) / 2
                 d_loss.backward()
                 self.optim_D.step()
