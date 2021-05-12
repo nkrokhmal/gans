@@ -30,7 +30,7 @@ def main():
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=FLAGS.batch_size,
                                                  shuffle=True, num_workers=4, pin_memory=True)
         print('Creating model...\n')
-        model = Model(FLAGS.model, device, dataloader, FLAGS.classes, FLAGS.channels, FLAGS.latent_dim)
+        model = Model(FLAGS.model, device, dataloader, FLAGS.classes, FLAGS.channels, FLAGS.img_size, FLAGS.latent_dim)
         model.create_optim(FLAGS.lr)
 
         model.train(FLAGS.epochs, FLAGS.log_interval, FLAGS.out_dir, True)
