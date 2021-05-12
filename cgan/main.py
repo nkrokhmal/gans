@@ -20,12 +20,20 @@ def main():
 
     if FLAGS.train:
         print('Loading data...\n')
-        dataset = dset.MNIST(root=FLAGS.data_dir, download=True,
-                             transform=transforms.Compose([
-                                 transforms.Resize(FLAGS.img_size),
-                                 transforms.ToTensor(),
-                                 transforms.Normalize((0.5,), (0.5,))
-                             ]))
+        if FLAGS.dataset == "MNIST":
+            dataset = dset.MNIST(root=FLAGS.data_dir, download=True,
+                                 transform=transforms.Compose([
+                                     transforms.Resize(FLAGS.img_size),
+                                     transforms.ToTensor(),
+                                     transforms.Normalize((0.5,), (0.5,))
+                                 ]))
+        elif FLAGS.dataset == "FASHION_MNIST":
+            dataset = dset.FashionMNIST(root=FLAGS.data_dir, download=True,
+                                        transform=transforms.Compose([
+                                            transforms.Resize(FLAGS.img_size),
+                                            transforms.ToTensor(),
+                                            transforms.Normalize((0.5,), (0.5,))
+                                        ]))
         assert dataset
         dataloader = torch.utils.data.DataLoader(dataset, batch_size=FLAGS.batch_size,
                                                  shuffle=True, num_workers=4, pin_memory=True)
@@ -59,6 +67,7 @@ if __name__ == '__main__':
     parser.add_argument('--channels', type=int, default=1, help='number of image channels')
     parser.add_argument('--log_interval', type=int, default=100, help='interval between logging and image sampling')
     parser.add_argument('--seed', type=int, default=1, help='random seed')
+    parser.add_argument('--dataset', type=str, default='MNIST', help='type of dataset')
 
     FLAGS = parser.parse_args()
     FLAGS.cuda = FLAGS.cuda and torch.cuda.is_available()
