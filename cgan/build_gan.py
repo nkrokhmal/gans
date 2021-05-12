@@ -33,7 +33,7 @@ class Model(object):
 
     def create_optim(self, lr, alpha=0.5, beta=0.999):
         self.optim_G = torch.optim.Adam(filter(lambda p: p.requires_grad, self.netG.parameters()), lr=lr, betas=(alpha, beta))
-        self.optim_D = torch.optim.Adam(filter(lambda p: p.requires_grad, self.netG.parameters()), lr=lr, betas=(alpha, beta))
+        self.optim_D = torch.optim.Adam(filter(lambda p: p.requires_grad, self.netD.parameters()), lr=lr, betas=(alpha, beta))
 
     def train(self, epochs, log_interval=100, out_dir='', verbose=True):
         self.netG.train()
