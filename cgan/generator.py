@@ -20,13 +20,13 @@ class Generator(nn.Module):
             *self._create_layer(256, 512),
             *self._create_layer(512, 1024),
             nn.Linear(1024, int(np.prod(self.img_shape))),
-            nn.Tanh(),
+            nn.Tanh()
         )
 
     def _create_layer(self, size_in, size_out, normalize=True):
         layers = [nn.Linear(size_in, size_out)]
         if normalize:
-            layers.append(nn.BatchNorm2d(size_out))
+            layers.append(nn.BatchNorm1d(size_out))
         layers.append(nn.LeakyReLU(0.2, inplace=True))
         return layers
 

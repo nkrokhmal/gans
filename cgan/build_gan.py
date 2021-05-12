@@ -32,8 +32,8 @@ class Model(object):
         self.optim_D = None
 
     def create_optim(self, lr, alpha=0.5, beta=0.999):
-        self.optim_G = torch.optim.Adam(filter(lambda p: p.required_grad, self.netG.parameters()), lr=lr, betas=(alpha, beta))
-        self.optim_D = torch.optim.Adam(filter(lambda p: p.required_grad, self.netG.parameters()), lr=lr, betas=(alpha, beta))
+        self.optim_G = torch.optim.Adam(filter(lambda p: p.requires_grad, self.netG.parameters()), lr=lr, betas=(alpha, beta))
+        self.optim_D = torch.optim.Adam(filter(lambda p: p.requires_grad, self.netG.parameters()), lr=lr, betas=(alpha, beta))
 
     def train(self, epochs, log_interval=100, out_dir='', verbose=True):
         self.netG.train()
@@ -45,7 +45,7 @@ class Model(object):
             for batch_idx, (data, target) in enumerate(self.data_loader):
                 data, target = data.to(self.device), target.to(self.device)
                 batch_size = data.size(0)
-                real_label = torch.full((batch_size, 1), 1., device=self.deivce)
+                real_label = torch.full((batch_size, 1), 1., device=self.device)
                 fake_label = torch.full((batch_size, 1), 0., device=self.device)
 
                 self.netG.zero_grad()

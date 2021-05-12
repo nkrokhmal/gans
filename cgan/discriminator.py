@@ -38,5 +38,6 @@ class Discriminator(nn.Module):
 
     def loss(self, output, label):
         return self.adv_loss(output, label)
+
     
 
