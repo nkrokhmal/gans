@@ -8,10 +8,14 @@ class Generator(nn.Module):
         self.classes = classes
         self.channels = channels
         self.img_size = img_size
-        self.img_init_shape = (128, self.img_init_shape, self.img_init_shape)
+        self.img_init_size = self.img_size // 4
+        self.latent_dim = latent_dim
+        self.code_dim = code_dim
+        self.img_init_shape = (128, self.img_init_size, self.img_init_size)
         self.img_shape = (self.channels, self.img_size, self.img_size)
         self.stem_linear = nn.Sequential(
-            nn.Linear(latent_dim + classes + code_dim, int(np.prod(self.img_init_shape)))
+            nn.Linear(latent_dim + classes + code_dim,
+                      int(np.prod(self.img_init_shape)))
         )
         self.model = nn.Sequential(
             nn.BatchNorm2d(128),
@@ -25,4 +29,15 @@ class Generator(nn.Module):
         layers = []
         if upsample:
             layers.append(Upsample(scale_factor=2))
-        layers.append((nn.Conv2d(size_in, size_out)))
+        layers.append(nn.Conv2d(size_in, size_out, 3, stride=1, padding=1))
+        if normalize:
+            layers.append(nn.BatchNorm2d(size_out, 0.8))
+            layers.append(nn.LeakyReLU(0.2, inplace=True))
+        return layers
+
+    def forward(self, noise, labels, code):
+        z = torch.cat((noise, labels, code), -1)
+        z_vec = self.stem_linear(z)
+        z_img = z_vec.view(z_vec.shape[0], *self.img_init_shape)
+        x = self.model(z_img)
+        return x
