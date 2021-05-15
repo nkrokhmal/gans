@@ -1,0 +1,22 @@
+PyTorch version: 1.5.1
+CUDA version: 10.2
+
+         Args         |    Type    |    Value
+--------------------------------------------------
+  model               |  str       |  cgan
+  cuda                |  bool      |  False
+  train               |  bool      |  True
+  data_dir            |  str       |  ~/Data/mnist
+  out_dir             |  str       |  output
+  epochs              |  int       |  200
+  batch_size          |  int       |  128
+  lr                  |  float     |  0.0002
+  latent_dim          |  int       |  100
+  classes             |  int       |  10
+  img_size            |  int       |  64
+  channels            |  int       |  1
+  log_interval        |  int       |  100
+  seed                |  int       |  1
+Loading data...
+
+Downloading http://yann.lecun.com/exdb/mnist/train-images-idx3-ubyte.gz to /home/nkrokhmal/Data/mnist/MNIST/raw/train-images-idx3-ubyte.gz
