@@ -1,7 +1,7 @@
 from imports.external import *
 import itertools
-from infogan.discriminator import Discriminator as infoganG
-from infogan.generator import Generator as infoganD
+from infogan.discriminator import Discriminator as infoganD
+from infogan.generator import Generator as infoganG
 from utils.utils import *
 
 
